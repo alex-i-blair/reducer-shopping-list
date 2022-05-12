@@ -1,5 +1,6 @@
-import React from 'react';
+import { useList } from '../context/ListProvider';
 
 export default function Header() {
-  return <div>Header</div>;
+  const { shoppingList } = useList();
+  return <div>Number of items left to get: {shoppingList.length - 1}</div>;
 }

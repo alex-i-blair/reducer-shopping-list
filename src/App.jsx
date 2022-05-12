@@ -5,10 +5,10 @@ import ShoppingList from './views/ShoppingList';
 export default function App() {
   return (
     <>
-      {/* <ListProvider> */}
-      <Header />
-      <ShoppingList />
-      {/* </ListProvider> */}
+      <ListProvider>
+        <Header />
+        <ShoppingList />
+      </ListProvider>
     </>
   );
 }

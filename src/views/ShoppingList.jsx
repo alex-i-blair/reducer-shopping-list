@@ -1,45 +1,12 @@
 import { useState, useReducer } from 'react';
-
-const initialState = [{}];
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_ITEM':
-      return [
-        { id: Date.now(), text: action.payload.text, gotIt: false },
-        ...state,
-      ];
-    case 'UPDATE_ITEM':
-      return state.map((listItem) => {
-        if (listItem.id === action.payload.listItem.id) {
-          const { gotIt, text } = action.payload.listItem;
-          return {
-            ...listItem,
-            gotIt,
-            text,
-          };
-        }
-        return listItem;
-      });
-    case 'DELETE_ITEM':
-      return state.filter((listItem) => listItem.id !== action.payload.id);
-  }
-};
+import { useList } from '../context/ListProvider';
 
 export default function ShoppingList() {
   const [newListItem, setNewListItem] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [shoppingList, dispatch] = useReducer(reducer, initialState);
+  const { shoppingList, handleAddItem, handleUpdateItem, handleDeleteItem } =
+    useList();
 
-  const handleAddItem = (text) => {
-    dispatch({ type: 'ADD_ITEM', payload: { text } });
-  };
-  const handleUpdateItem = (listItem) => {
-    dispatch({ type: 'UPDATE_ITEM', payload: { listItem } });
-  };
-  const handleDeleteItem = (id) => {
-    dispatch({ type: 'DELETE_ITEM', payload: { id } });
-  };
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
