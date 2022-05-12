@@ -4,7 +4,7 @@ import { useList } from '../context/ListProvider';
 
 export default function ShoppingList() {
   const [newListItem, setNewListItem] = useState('');
-  const { shoppingList, handleAddItem } = useList();
+  const { shoppingList, handleAddItem, handleResetList } = useList();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,6 +31,15 @@ export default function ShoppingList() {
             listItem.id && <ListItem key={listItem.id} listItem={listItem} />
         )}
       </ul>
+      <button
+        onClick={() => {
+          if (window.confirm('Are you sure you wish to delete this item?')) {
+            handleResetList();
+          }
+        }}
+      >
+        Reset list
+      </button>
     </>
   );
 }

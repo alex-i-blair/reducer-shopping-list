@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
 
-const initialState = [{}];
+const initialState = [];
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,6 +23,8 @@ const reducer = (state, action) => {
       });
     case 'DELETE_ITEM':
       return state.filter((listItem) => listItem.id !== action.payload.id);
+    case 'RESET_LIST':
+      return initialState;
   }
 };
 
@@ -39,6 +41,9 @@ export function ListProvider({ children }) {
   const handleDeleteItem = (id) => {
     dispatch({ type: 'DELETE_ITEM', payload: { id } });
   };
+  const handleResetList = () => {
+    dispatch({ type: 'RESET_LIST' });
+  };
 
   return (
     <ListContext.Provider
@@ -47,6 +52,7 @@ export function ListProvider({ children }) {
         handleAddItem,
         handleUpdateItem,
         handleDeleteItem,
+        handleResetList,
       }}
     >
       {children}
