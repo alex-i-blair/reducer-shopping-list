@@ -21,11 +21,14 @@ const reducer = (state, action) => {
         }
         return listItem;
       });
+    case 'DELETE_ITEM':
+      return state.filter((listItem) => listItem.id !== action.payload.id);
   }
 };
 
 export default function ShoppingList() {
   const [newListItem, setNewListItem] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
   const [shoppingList, dispatch] = useReducer(reducer, initialState);
 
   const handleAddItem = (text) => {
@@ -73,8 +76,17 @@ export default function ShoppingList() {
                       });
                     }}
                   />
+                  {listItem.text}
+                  <button type="button" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteItem(listItem.id)}
+                  >
+                    Delete
+                  </button>
                 </div>
-                {listItem.text}
               </li>
             )
         )}
