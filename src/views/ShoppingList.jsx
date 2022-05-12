@@ -47,6 +47,7 @@ export default function ShoppingList() {
 
     setNewListItem('');
   };
+
   return (
     <>
       <header>{shoppingList.length - 1}</header>
@@ -76,7 +77,26 @@ export default function ShoppingList() {
                       });
                     }}
                   />
-                  {listItem.text}
+                  {isEditing ? (
+                    <form
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        setIsEditing(false);
+                      }}
+                    >
+                      <input
+                        value={listItem.text}
+                        onChange={(event) => {
+                          handleUpdateItem({
+                            ...listItem,
+                            text: event.target.value,
+                          });
+                        }}
+                      />
+                    </form>
+                  ) : (
+                    listItem.text
+                  )}
                   <button type="button" onClick={() => setIsEditing(true)}>
                     Edit
                   </button>
