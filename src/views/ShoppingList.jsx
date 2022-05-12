@@ -66,7 +66,13 @@ export default function ShoppingList() {
           (listItem) =>
             listItem.id && (
               <li key={listItem.id}>
-                <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '.3rem',
+                  }}
+                >
                   <input
                     type="checkbox"
                     checked={listItem.gotIt}
@@ -78,28 +84,42 @@ export default function ShoppingList() {
                     }}
                   />
                   {isEditing ? (
-                    <form
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        setIsEditing(false);
-                      }}
-                    >
-                      <input
-                        value={listItem.text}
-                        onChange={(event) => {
-                          handleUpdateItem({
-                            ...listItem,
-                            text: event.target.value,
-                          });
+                    <>
+                      <form
+                        onSubmit={(event) => {
+                          event.preventDefault();
+                          setIsEditing(false);
                         }}
-                      />
-                    </form>
+                      >
+                        <input
+                          value={listItem.text}
+                          onChange={(event) => {
+                            handleUpdateItem({
+                              ...listItem,
+                              text: event.target.value,
+                            });
+                          }}
+                        />
+                      </form>
+                      <button type="button" onClick={() => setIsEditing(false)}>
+                        Save
+                      </button>
+                    </>
                   ) : (
-                    listItem.text
+                    <>
+                      <p
+                        style={{
+                          textDecoration: listItem.gotIt && 'line-through',
+                        }}
+                      >
+                        {listItem.text}
+                      </p>
+                      <button type="button" onClick={() => setIsEditing(true)}>
+                        Edit
+                      </button>
+                    </>
                   )}
-                  <button type="button" onClick={() => setIsEditing(true)}>
-                    Edit
-                  </button>
+
                   <button
                     type="button"
                     onClick={() => handleDeleteItem(listItem.id)}
