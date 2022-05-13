@@ -1,24 +1,10 @@
-import { useState, useReducer } from 'react';
-
-const initialState = [{}];
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_ITEM':
-      return [
-        { id: Date.now(), text: action.payload.text, gotIt: false },
-        ...state,
-      ];
-  }
-};
+import { useState } from 'react';
+import ListItem from '../components/ListItem';
+import { useList } from '../context/ListProvider';
 
 export default function ShoppingList() {
   const [newListItem, setNewListItem] = useState('');
-  const [shoppingList, dispatch] = useReducer(reducer, initialState);
-
-  const handleAddItem = (text) => {
-    dispatch({ type: 'ADD_ITEM', payload: { text } });
-  };
+  const { shoppingList, handleAddItem, handleResetList } = useList();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,6 +12,7 @@ export default function ShoppingList() {
 
     setNewListItem('');
   };
+
   return (
     <>
       <h1>Shopping List</h1>
@@ -41,9 +28,18 @@ export default function ShoppingList() {
       <ul>
         {shoppingList.map(
           (listItem) =>
-            listItem.id && <li key={listItem.id}>{listItem.text}</li>
+            listItem.id && <ListItem key={listItem.id} listItem={listItem} />
         )}
       </ul>
+      <button
+        onClick={() => {
+          if (window.confirm('Are you sure you wish to delete this item?')) {
+            handleResetList();
+          }
+        }}
+      >
+        Reset list
+      </button>
     </>
   );
 }

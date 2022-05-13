@@ -1,5 +1,7 @@
-import React from 'react';
+import { useList } from '../context/ListProvider';
 
 export default function Header() {
-  return <div>Header</div>;
+  const { shoppingList } = useList();
+  const dontGotIt = shoppingList.filter((listItem) => listItem.gotIt === false);
+  return <div>Number of items left to get: {dontGotIt.length}</div>;
 }
