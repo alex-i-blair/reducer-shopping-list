@@ -1,11 +1,10 @@
-import App from './App';
 import {
-  screen,
   render,
-  fireEvent,
+  screen,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import App from './App';
 
 describe('shopping list behavioral tests', () => {
   it('should be able to add items to a shopping list reflected in header count; check box click to mark as "gotIt" reflected in header count; delete button to remove reflected in header count; edit button to change text', () => {
